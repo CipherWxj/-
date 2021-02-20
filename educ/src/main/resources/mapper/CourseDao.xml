@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!-- Dao文件所在的路径 -->
+<mapper namespace="com.kt.educ.dao.CourseDao">
+
+    <resultMap id="courseMap" type="com.kt.educ.model.Course">
+        <id property="id" column="id"/>
+        <result property="courseNum" column="cou_number"/>
+        <result property="courseName" column="cou_name"/>
+        <result property="teacher" column="cou_teacher"/>
+
+        <collection property="scoreList" ofType="com.kt.educ.model.Score" column="cou_number">
+            <!-- 这里的column对应的是下面查询的别名，而不是表字段名 -->
+            <!-- property对应JavaBean中的属性名 -->
+            <id column="s.cou_number" property="courseNum"/>
+            <result column="cou_number" property="courseNum"/>
+            <result column="score" property="score"/>
+        </collection>
+    </resultMap>
+
+
+    <select id="getCourse" resultMap="courseMap">
+        SELECT
+            course.cou_number,cou_name,cou_teacher,s.score
+        FROM
+            course
+                LEFT JOIN score s on course.cou_number = s.cou_number
+        WHERE
+            course.cou_number=#{num}
+    </select>
+</mapper>

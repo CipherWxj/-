@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<!-- Dao文件所在的路径 -->
+<mapper namespace="com.kt.educ.dao.ScoreDao">
+
+    <resultMap id="scoreMap" type="com.kt.educ.model.Score">
+        <id property="id" column="id"/>
+        <result property="studentId" column="stu_id"/>
+        <result property="courseNum" column="cou_number"/>
+        <result property="score" column="score"/>
+    </resultMap>
+
+    <sql id="tabScore">
+        id,
+        stu_id,
+        cou_number,
+        score
+    </sql>
+
+    <select id="getScore" resultMap="scoreMap">
+        SELECT
+        <include refid="tabScore"/>
+        FROM
+        score
+    </select>
+
+</mapper>
